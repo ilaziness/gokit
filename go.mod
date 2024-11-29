@@ -3,6 +3,7 @@ module github.com/ilaziness/gokit
 go 1.23.0
 
 require (
+	entgo.io/ent v0.14.1
 	github.com/apache/rocketmq-clients/golang/v5 v5.1.1-rc1
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/gin-contrib/cors v1.7.2

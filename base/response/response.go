@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const successCode = 1
+const successCode = 0
 
 type Format struct {
 	Code    int    `json:"code"`
@@ -25,7 +25,7 @@ func Success(ctx *gin.Context, data any) {
 	ctx.JSON(http.StatusOK, respData)
 }
 
-func Error(ctx *gin.Context, err errcode.Code) {
+func Error(ctx *gin.Context, err *errcode.Code) {
 	respData := Format{
 		Code:    err.Code,
 		Message: err.Message,

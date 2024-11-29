@@ -24,7 +24,7 @@ type Cors struct {
 type DB struct {
 	DSN      string `mapstructure:"dsn"`
 	Host     string `mapstructure:"host"`
-	Port     uint16 `mapstructure:"Port"`
+	Port     uint16 `mapstructure:"port"`
 	Username string `mapstructure:"username"`
 	Password string `mapstructure:"password"`
 	DbName   string `mapstructure:"db_name"`
