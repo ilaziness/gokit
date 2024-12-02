@@ -42,6 +42,19 @@ func InitGORM(cfg *config.DB) {
 		panic(err)
 	}
 	gormDB = db
+	gDB, err := gormDB.DB()
+	if err != nil {
+		panic(err)
+	}
+	if cfg.MaxIdleConns > 0 {
+		gDB.SetMaxIdleConns(cfg.MaxIdleConns)
+	}
+	if cfg.MaxOpenConns > 0 {
+		gDB.SetMaxOpenConns(cfg.MaxOpenConns)
+	}
+	if cfg.ConnMaxLifeTime > 0 {
+		gDB.SetConnMaxLifetime(time.Duration(cfg.ConnMaxLifeTime) * time.Second)
+	}
 }
 
 // EntDriver 创建ent client驱动
@@ -80,6 +93,15 @@ func InitSqlx(cfg *config.DB) {
 		panic(err)
 	}
 	sqlxDB = db
+	if cfg.MaxIdleConns > 0 {
+		sqlxDB.SetMaxIdleConns(cfg.MaxIdleConns)
+	}
+	if cfg.MaxOpenConns > 0 {
+		sqlxDB.SetMaxOpenConns(cfg.MaxOpenConns)
+	}
+	if cfg.ConnMaxLifeTime > 0 {
+		sqlxDB.SetConnMaxLifetime(time.Duration(cfg.ConnMaxLifeTime) * time.Second)
+	}
 
 	hook.Exit.Register(func() {
 		_ = sqlxDB.Close()
