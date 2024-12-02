@@ -118,7 +118,7 @@ func StartConsumer(ctx context.Context, endpoint, accessKey, secretKey string, c
 		}
 		if err != nil {
 			log.Logger.Errorf("consumer receive msg error: %v", err)
-			time.Sleep(time.Second * 5)
+			time.Sleep(time.Second * 3)
 			return
 		}
 		for _, mv := range mvs {
@@ -147,7 +147,7 @@ func StartConsumer(ctx context.Context, endpoint, accessKey, secretKey string, c
 				})
 			})
 		}
-		time.Sleep(time.Second * 3)
+		time.Sleep(time.Second * 1)
 	}
 
 	log.Logger.Infof("consumer group started: %s", consumer.GroupName())

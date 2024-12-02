@@ -1,7 +1,9 @@
 package mysql
 
 import (
+	nativeSQL "database/sql"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/ilaziness/gokit/config"
@@ -11,6 +13,7 @@ import (
 
 var (
 	gormDB *gorm.DB
+	sqlDB  *nativeSQL.DB
 )
 
 func GormDB() *gorm.DB {
@@ -47,5 +50,20 @@ func EntDriver(cfg *config.DB) *sql.Driver {
 	if err = drv.DB().Ping(); err != nil {
 		panic(err)
 	}
+	if cfg.MaxIdleConns > 0 {
+		drv.DB().SetMaxIdleConns(cfg.MaxIdleConns)
+	}
+	if cfg.MaxOpenConns > 0 {
+		drv.DB().SetMaxOpenConns(cfg.MaxOpenConns)
+	}
+	if cfg.ConnMaxLifeTime > 0 {
+		drv.DB().SetConnMaxLifetime(time.Duration(cfg.ConnMaxLifeTime) * time.Second)
+	}
+	sqlDB = drv.DB()
 	return drv
+}
+
+// EntNativeDB 获取env原始db对象
+func EntNativeDB() *nativeSQL.DB {
+	return sqlDB
 }

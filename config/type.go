@@ -22,14 +22,17 @@ type Cors struct {
 }
 
 type DB struct {
-	DSN      string `mapstructure:"dsn"`
-	Host     string `mapstructure:"host"`
-	Port     uint16 `mapstructure:"port"`
-	Username string `mapstructure:"username"`
-	Password string `mapstructure:"password"`
-	DbName   string `mapstructure:"db_name"`
-	Charset  string `mapstructure:"charset"`
-	Timezone string `mapstructure:"timezone"`
+	DSN             string `mapstructure:"dsn"`
+	Host            string `mapstructure:"host"`
+	Port            uint16 `mapstructure:"port"`
+	Username        string `mapstructure:"username"`
+	Password        string `mapstructure:"password"`
+	DbName          string `mapstructure:"db_name"`
+	Charset         string `mapstructure:"charset"`
+	Timezone        string `mapstructure:"timezone"`
+	MaxIdleConns    int    `mapstructure:"max_idle_conns"`
+	MaxOpenConns    int    `mapstructure:"max_open_conns"`
+	ConnMaxLifeTime int    `mapstructure:"conn_max_life_time"`
 }
 
 type Redis struct {
