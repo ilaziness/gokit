@@ -7,6 +7,8 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/ilaziness/gokit/config"
+	"github.com/ilaziness/gokit/hook"
+	"github.com/jmoiron/sqlx"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -14,6 +16,7 @@ import (
 var (
 	gormDB *gorm.DB
 	sqlDB  *nativeSQL.DB
+	sqlxDB *sqlx.DB
 )
 
 func GormDB() *gorm.DB {
@@ -66,4 +69,23 @@ func EntDriver(cfg *config.DB) *sql.Driver {
 // EntNativeDB 获取env原始db对象
 func EntNativeDB() *nativeSQL.DB {
 	return sqlDB
+}
+
+func InitSqlx(cfg *config.DB) {
+	db, err := sqlx.Connect("mysql", GetDSN(cfg))
+	if err != nil {
+		panic(err)
+	}
+	if err = db.Ping(); err != nil {
+		panic(err)
+	}
+	sqlxDB = db
+
+	hook.Exit.Register(func() {
+		_ = sqlxDB.Close()
+	})
+}
+
+func SqlxDB() *sqlx.DB {
+	return sqlxDB
 }
