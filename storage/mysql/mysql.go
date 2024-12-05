@@ -31,7 +31,7 @@ func GetDSN(cfg *config.DB) string {
 }
 
 func buildDSN(cfg *config.DB) string {
-	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", cfg.Username, cfg.Password, cfg.Host, cfg.Port, cfg.DbName)
+	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=True", cfg.Username, cfg.Password, cfg.Host, cfg.Port, cfg.DbName)
 }
 
 // InitGORM 初始化MySQL连接

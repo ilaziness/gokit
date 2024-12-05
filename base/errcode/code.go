@@ -26,14 +26,16 @@ func (ec *Code) Error() string {
 	return ec.Message
 }
 
-func (ec *Code) SetData(data any) {
+func (ec *Code) SetData(data any) *Code {
 	ec.Data = data
+	return ec
 }
 
-func (ec *Code) SetMessage(msg string) {
-	ec.Message = msg
+func (ec *Code) SetMessage(msg string, data ...any) *Code {
+	ec.Message = fmt.Sprintf(msg, data...)
+	return ec
 }
 
-func (ec *Code) Param(a ...any) {
-	ec.Message = fmt.Sprintf(ec.Message, a...)
-}
+var (
+	ReqErr = NewCode(400, "request error")
+)

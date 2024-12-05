@@ -8,7 +8,7 @@ pkg                   // 公共包
     ├─base              // 基础包
     │  ├─constant       // 常量定义
     │  ├─errcode        // 错误码
-    │  └─response       // 返回响应方法
+    │  └─reqp       // 返回响应方法
     ├─config            // 配置
     ├─log               // 日志
     ├─middleware        // 通用中间件

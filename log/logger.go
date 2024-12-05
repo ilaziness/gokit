@@ -76,7 +76,7 @@ func setLogger() {
 	// 创建日志记录器
 	zapLogger = zap.New(core, zap.AddCaller())
 	Logger = zapLogger.Sugar()
-	Logger.Infoln("zap logger created")
+	//Logger.Infoln("zap logger created")
 }
 
 func FlushLogger() {
