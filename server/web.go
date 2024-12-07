@@ -53,7 +53,7 @@ func (a *WebApp) Run() {
 		Handler: a.Gin,
 	}
 	go func() {
-		log.Logger.Infof("app [%s] started on %s", a.cfg.ID, srv.Addr)
+		log.Logger.Infof("app [%s] started on %s", a.cfg.Name, srv.Addr)
 		err := srv.ListenAndServe()
 		if err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Logger.Fatal("Start Server error:", err)
@@ -91,7 +91,7 @@ func (a *WebApp) setDefaultMiddleware() {
 		corsCfg.AllowCredentials = a.cfg.Cors.AllowCredentials
 	}
 	a.Gin.Use(cors.New(corsCfg))
-	a.Gin.Use(middleware.Otel(a.cfg.ID))
+	a.Gin.Use(middleware.Otel(a.cfg.Name))
 }
 
 func (a *WebApp) starup() {

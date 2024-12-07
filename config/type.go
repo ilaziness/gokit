@@ -4,7 +4,7 @@ type Mode string
 
 type App struct {
 	// 应用id
-	ID string `mapstructure:"id"`
+	Name string `mapstructure:"name"`
 	// 服务权重
 	Weight int `mapstructure:"weight"`
 	// Mode debug, release
@@ -22,6 +22,7 @@ type Cors struct {
 }
 
 type DB struct {
+	Debug           bool   `mapstructure:"debug"`
 	DSN             string `mapstructure:"dsn"`
 	Host            string `mapstructure:"host"`
 	Port            uint16 `mapstructure:"port"`

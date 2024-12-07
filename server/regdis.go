@@ -39,7 +39,7 @@ func Register(cfg *config.Nacos, appCfg *config.App) {
 		weight = appCfg.Weight
 	}
 	nacos := &nameService{
-		name:   appCfg.ID,
+		name:   appCfg.Name,
 		weight: weight,
 		port:   appCfg.Port,
 		dataID: cfg.DataID,

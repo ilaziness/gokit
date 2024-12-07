@@ -37,7 +37,15 @@ func buildDSN(cfg *config.DB) string {
 // InitGORM 初始化MySQL连接
 // dns refer https://github.com/go-sql-driver/mysql#dsn-data-source-name for details
 func InitGORM(cfg *config.DB) {
-	db, err := gorm.Open(mysql.Open(GetDSN(cfg)), &gorm.Config{})
+	l := NewGormLoggerRelease()
+	if cfg.Debug {
+		l = NewGormLoggerDebug()
+	}
+	db, err := gorm.Open(mysql.Open(GetDSN(cfg)), &gorm.Config{
+		SkipDefaultTransaction: true,
+		PrepareStmt:            true,
+		Logger:                 l,
+	})
 	if err != nil {
 		panic(err)
 	}
