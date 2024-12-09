@@ -40,7 +40,7 @@ func NewWeb(appCfg *config.App) *WebApp {
 // NewGin gin engine
 func NewGin() *gin.Engine {
 	e := gin.New()
-	// 没有这个设置gin context和原生content会不兼容
+	// 没有这个设置gin context和原生Request的content会不兼容
 	e.ContextWithFallback = true
 	return e
 }

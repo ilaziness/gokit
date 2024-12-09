@@ -32,7 +32,7 @@ func (ts *tests) UnmarshalBinary(data []byte) error {
 }
 
 func init() {
-	redis.Init(cfg)
+	redis.Init(cfg, true)
 	InitRedisCache(redis.Client)
 }
 
