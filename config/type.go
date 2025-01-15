@@ -21,7 +21,10 @@ type Cors struct {
 	AllowCredentials bool     `mapstructure:"allow_credentials"`
 }
 
+// DB sql数据库配置
 type DB struct {
+	// sql方言 sqlite3 postgres mysql pgx
+	Dialect         string `mapstructure:"dialect"`
 	Debug           bool   `mapstructure:"debug"`
 	DSN             string `mapstructure:"dsn"`
 	Host            string `mapstructure:"host"`
