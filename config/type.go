@@ -8,10 +8,11 @@ type App struct {
 	// 服务权重
 	Weight int `mapstructure:"weight"`
 	// Mode debug, release
-	Mode    string `mapstructure:"mode"`
-	Port    uint16 `mapstructure:"port"`
-	RootDir string `mapstructure:"root_dir"`
-	Cors    *Cors  `mapstructure:"cors"`
+	Mode          string `mapstructure:"mode"`
+	Port          uint16 `mapstructure:"port"`
+	RootDir       string `mapstructure:"root_dir"`
+	Cors          *Cors  `mapstructure:"cors"`
+	SessionSecret string `mapstructure:"session_secret"`
 }
 
 type Cors struct {

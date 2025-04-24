@@ -12,10 +12,12 @@ import (
 )
 
 // EnvConfigFile 配置文件环境变量名称
+// 指定了文件则只会使用指定的文件
 const EnvConfigFile = "ENV_CONFIG_FILE"
 
-// EnvConfigEnv 配置文件环境
-const EnvConfigEnv = "ENV_CONFIG_ENV"
+// EnvConfigMode 配置文件环境模式
+// 会成为查找配置文件文件名的一部分
+const EnvConfigMode = "ENV_CONFIG_MODE"
 
 var (
 	// 配置文件列表
@@ -28,8 +30,11 @@ var (
 	env = ""
 )
 
+// scanFile 查找配置文件
+// 优先使用环境变量 EnvConfigFile 指定的文件，文件保存到 configFile
+// 没有指定文件使用是 defaultType 后缀的所有文件，文件列表保存到 files
 func scanFile() {
-	env = os.Getenv(EnvConfigEnv)
+	env = os.Getenv(EnvConfigMode)
 	// 优先环境变量指定的配置文件
 	cfgFile := os.Getenv(EnvConfigFile)
 	if cfgFile != "" {
@@ -53,14 +58,13 @@ func LoadConfig[T any](c T, dir ...string) {
 	if len(dir) > 0 {
 		defaultDir = defaultDir + "/" + dir[0]
 	}
+	scanFile()
 	v := viper.New()
 	if configFile != "" {
 		v.SetConfigFile(configFile)
 		if err := v.ReadInConfig(); err != nil {
 			panic(err)
 		}
-	} else {
-		scanFile()
 	}
 	for _, file := range files {
 		v.SetConfigFile(fmt.Sprintf("%s/%s", defaultDir, file))

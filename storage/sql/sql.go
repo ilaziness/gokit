@@ -9,9 +9,9 @@ import (
 	entsql "entgo.io/ent/dialect/sql"
 	"github.com/ilaziness/gokit/config"
 	"github.com/ilaziness/gokit/hook"
-	// _ "github.com/jackc/pgx/v5/stdlib"
+	// _ "github.com/jackc/pgx/v5/stdlib"  // ent pgx驱动
 	"github.com/jmoiron/sqlx"
-	// _ "github.com/lib/pq"
+	// _ "github.com/lib/pq"  //sqlx的驱动
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
@@ -111,7 +111,7 @@ func EntDriver(cfg *config.DB) *entsql.Driver {
 	return drv
 }
 
-// EntNativeDB 获取env原始db对象
+// EntNativeDB 获取ent原始db对象
 func EntNativeDB() *nativeSQL.DB {
 	return entSQLDB
 }

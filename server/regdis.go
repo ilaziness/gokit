@@ -15,6 +15,7 @@ import (
 )
 
 // 提供服务注册和获取功能
+// nacos 提供功能
 // Register：注册服务
 // GetInstance: 获取健康服务的ip和端口
 
@@ -32,8 +33,8 @@ type nameService struct {
 	port        uint16
 }
 
-// Register 注册服务
-func Register(cfg *config.Nacos, appCfg *config.App) {
+// Registration 注册服务
+func Registration(cfg *config.Nacos, appCfg *config.App) {
 	weight := 1
 	if appCfg.Weight > 0 {
 		weight = appCfg.Weight

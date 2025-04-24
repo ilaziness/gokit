@@ -32,10 +32,12 @@ type GormLogger struct {
 	level logger.LogLevel
 }
 
+// NewGormLoggerDebug returns a new GormLogger instance with debug level logging enabled.
 func NewGormLoggerDebug() *GormLogger {
 	return &GormLogger{level: logger.Info}
 }
 
+// NewGormLoggerRelease returns a new GormLogger instance with release level logging enabled.
 func NewGormLoggerRelease() *GormLogger {
 	return &GormLogger{level: logger.Error}
 }
