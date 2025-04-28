@@ -78,6 +78,7 @@ func LogReq() gin.HandlerFunc {
 	}
 }
 
+// Otel otel中间件
 func Otel(serviceName string) gin.HandlerFunc {
 	isSetProvider := false
 	tp := otel.GetTracerProvider()

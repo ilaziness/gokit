@@ -9,7 +9,7 @@ import (
 	"github.com/ilaziness/gokit/config"
 	"github.com/ilaziness/gokit/hook"
 	"github.com/ilaziness/gokit/log"
-	"github.com/ilaziness/gokit/utils"
+	"github.com/ilaziness/gokit/process"
 	"golang.org/x/sync/semaphore"
 
 	rmq "github.com/apache/rocketmq-clients/golang/v5"
@@ -59,7 +59,7 @@ func InitConsumer(cfg *config.RocketMq) {
 	_ = os.Setenv("rocketmq.client.logRoot", "log")
 	rmq.ResetLogger()
 	for _, cg := range consumers {
-		utils.SafeGo(func() {
+		process.SafeGo(func() {
 			StartConsumer(ctx, cfg.Endpoint, cfg.AccessKey, cfg.SecretKey, cg)
 		})
 	}
@@ -138,7 +138,7 @@ func StartConsumer(ctx context.Context, endpoint, accessKey, secretKey string, c
 				log.Logger.Errorf("acquire fail: <%s>, %v", mv.GetMessageId(), err)
 				continue
 			}
-			utils.SafeGo(func() {
+			process.SafeGo(func() {
 				_ = consumer.Run(mv, func() {
 					defer cNumberPool.Release(1)
 					if err = sc.Ack(newCtx, mv); err != nil {

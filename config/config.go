@@ -59,6 +59,9 @@ func LoadConfig[T any](c T, dir ...string) {
 		defaultDir = defaultDir + "/" + dir[0]
 	}
 	scanFile()
+	if configFile == "" && len(files) == 0 {
+		panic("no config file found")
+	}
 	v := viper.New()
 	if configFile != "" {
 		v.SetConfigFile(configFile)

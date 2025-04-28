@@ -8,11 +8,14 @@ type App struct {
 	// 服务权重
 	Weight int `mapstructure:"weight"`
 	// Mode debug, release
-	Mode          string `mapstructure:"mode"`
-	Port          uint16 `mapstructure:"port"`
+	Mode string `mapstructure:"mode"`
+	Port uint16 `mapstructure:"port"`
+	// 应用根目录，绝对路径
 	RootDir       string `mapstructure:"root_dir"`
 	Cors          *Cors  `mapstructure:"cors"`
 	SessionSecret string `mapstructure:"session_secret"`
+	// 是否记录请求日志
+	LogReq bool `mapstructure:"log_req"`
 }
 
 type Cors struct {

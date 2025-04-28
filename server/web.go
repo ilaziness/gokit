@@ -24,6 +24,10 @@ type WebApp struct {
 	cfg *config.App
 }
 
+func init() {
+	hook.Start.Register(timer.Run)
+}
+
 // NewWeb 创建一个web app
 func NewWeb(appCfg *config.App) *WebApp {
 	if appCfg.Mode == gin.ReleaseMode {
@@ -75,7 +79,10 @@ func (a *WebApp) Run() {
 }
 
 func (a *WebApp) setDefaultMiddleware() {
-	a.Gin.Use(middleware.LogReq(), gin.CustomRecoveryWithWriter(nil, middleware.RecoveryHandle))
+	a.Gin.Use(gin.CustomRecoveryWithWriter(nil, middleware.RecoveryHandle))
+	if a.cfg.LogReq {
+		a.Gin.Use(middleware.LogReq())
+	}
 	corsCfg := cors.DefaultConfig()
 	corsCfg.AllowOrigins = []string{"*"}
 	if a.cfg.Cors != nil {
@@ -95,7 +102,7 @@ func (a *WebApp) setDefaultMiddleware() {
 }
 
 func (a *WebApp) starup() {
-	timer.Run()
+	hook.Start.Trigger()
 }
 
 func (a *WebApp) destroy() {

@@ -6,7 +6,7 @@ import (
 	"github.com/ilaziness/gokit/config"
 	"github.com/ilaziness/gokit/hook"
 	"github.com/ilaziness/gokit/log"
-	"github.com/ilaziness/gokit/utils"
+	"github.com/ilaziness/gokit/net"
 	"github.com/jinzhu/copier"
 	"github.com/nacos-group/nacos-sdk-go/v2/clients"
 	"github.com/nacos-group/nacos-sdk-go/v2/clients/naming_client"
@@ -92,7 +92,7 @@ func GetInstance(name string) (string, error) {
 }
 
 func (n *nameService) register() {
-	ip, err := utils.GetInternalIP()
+	ip, err := net.GetInternalIP()
 	if err != nil {
 		panic(err)
 	}
