@@ -10,13 +10,15 @@ import (
 // SitemapGenerator 用于生成 sitemap 文件
 type SitemapGenerator struct {
 	OutputDir string // 文件保存目录
+	Domain    string // 域名
 	Entries   []string
 }
 
 // NewSitemapGenerator 创建一个新的 SitemapGenerator 实例
-func NewSitemapGenerator(outputDir string) *SitemapGenerator {
+func NewSitemapGenerator(outputDir string, domain string) *SitemapGenerator {
 	return &SitemapGenerator{
 		OutputDir: outputDir,
+		Domain:    domain,
 		Entries:   []string{},
 	}
 }
@@ -124,8 +126,8 @@ func (sg *SitemapGenerator) generateIndexFile(sitemapFiles []string) error {
 		if err != nil {
 			return fmt.Errorf("failed to get relative path for file %s: %w", file, err)
 		}
-		content += fmt.Sprintf("<sitemap><loc>%s</loc><lastmod>%s</lastmod></sitemap>\n", 
-			filepath.Join(sg.OutputDir, relativePath), time.Now().Format("2006-01-02"))
+		content += fmt.Sprintf("<sitemap><loc>%s/%s</loc><lastmod>%s</lastmod></sitemap>\n", 
+			sg.Domain, relativePath, time.Now().Format("2006-01-02"))
 	}
 	content += "</sitemapindex>"
 	if err := os.WriteFile(indexFilePath, []byte(content), 0644); err != nil {

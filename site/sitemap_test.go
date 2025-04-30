@@ -11,7 +11,7 @@ import (
 
 // TestAddEntry 测试 AddEntry 方法是否正确添加条目
 func TestAddEntry(t *testing.T) {
-	sg := NewSitemapGenerator("test_output")
+	sg := NewSitemapGenerator("test_output", "https://example.com")
 	sg.AddEntry("https://example.com", time.Date(2023, 10, 1, 0, 0, 0, 0, time.UTC))
 	if len(sg.Entries) != 1 {
 		t.Errorf("Expected 1 entry, got %d", len(sg.Entries))
@@ -27,7 +27,7 @@ func TestSaveSingleFile(t *testing.T) {
 	outputDir := "test_output_single"
 	defer os.RemoveAll(outputDir) // 清理测试目录
 
-	sg := NewSitemapGenerator(outputDir)
+	sg := NewSitemapGenerator(outputDir, "https://example.com")
 	sg.AddEntry("https://example.com", time.Date(2023, 10, 1, 0, 0, 0, 0, time.UTC))
 	if err := sg.Save(); err != nil {
 		t.Fatalf("Save failed: %v", err)
@@ -53,7 +53,7 @@ func TestSaveMultiFile(t *testing.T) {
 	outputDir := "test_output_multi"
 	defer os.RemoveAll(outputDir) // 清理测试目录
 
-	sg := NewSitemapGenerator(outputDir)
+	sg := NewSitemapGenerator(outputDir, "https://example.com")
 	for i := 0; i < 50001; i++ {
 		sg.AddEntry(fmt.Sprintf("https://example.com/%d", i), time.Date(2023, 10, 1, 0, 0, 0, 0, time.UTC))
 	}
@@ -72,6 +72,9 @@ func TestSaveMultiFile(t *testing.T) {
 
 	// 检查每个文件的内容
 	for _, file := range files {
+		if strings.Contains(file, "index") {
+			continue
+		}
 		content, err := os.ReadFile(file)
 		if err != nil {
 			t.Fatalf("Failed to read file %s: %v", file, err)
@@ -108,7 +111,7 @@ func TestGenerateIndexFile(t *testing.T) {
 	outputDir := "test_output_index"
 	defer os.RemoveAll(outputDir) // 清理测试目录
 
-	sg := NewSitemapGenerator(outputDir)
+	sg := NewSitemapGenerator(outputDir, "https://example.com")
 	sitemapFiles := []string{
 		filepath.Join(outputDir, "sitemap-0.xml"),
 		filepath.Join(outputDir, "sitemap-1.xml"),
