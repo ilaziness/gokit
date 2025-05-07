@@ -75,7 +75,8 @@ func setLogger() {
 
 	// 创建日志记录器
 	options := []zap.Option{
-		//zap.AddCaller(), zap.AddCallerSkip(1),
+		//zap.AddCaller(),
+		zap.AddCallerSkip(1),
 		zap.AddStacktrace(zapcore.ErrorLevel),
 	}
 	zapLogger = zap.New(core, options...)

@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"os/signal"
 	"time"
@@ -20,8 +21,8 @@ import (
 )
 
 type WebApp struct {
-	Gin *gin.Engine
-	cfg *config.App
+	Gin    *gin.Engine
+	config *config.App
 }
 
 func init() {
@@ -34,8 +35,8 @@ func NewWeb(appCfg *config.App) *WebApp {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	a := &WebApp{
-		Gin: NewGin(),
-		cfg: appCfg,
+		Gin:    NewGin(),
+		config: appCfg,
 	}
 	a.setDefaultMiddleware()
 	return a
@@ -53,11 +54,11 @@ func NewGin() *gin.Engine {
 func (a *WebApp) Run() {
 	a.starup()
 	srv := http.Server{
-		Addr:    fmt.Sprintf(":%d", a.cfg.Port),
+		Addr:    fmt.Sprintf(":%d", a.config.Port),
 		Handler: a.Gin,
 	}
 	go func() {
-		log.Logger.Infof("app [%s] started on %s", a.cfg.Name, srv.Addr)
+		log.Logger.Infof("app [%s] started on %s", a.config.Name, srv.Addr)
 		err := srv.ListenAndServe()
 		if err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Logger.Fatal("Start Server error:", err)
@@ -80,31 +81,39 @@ func (a *WebApp) Run() {
 
 func (a *WebApp) setDefaultMiddleware() {
 	a.Gin.Use(gin.CustomRecoveryWithWriter(nil, middleware.RecoveryHandle))
-	if a.cfg.LogReq {
+	if a.config.LogReq {
 		a.Gin.Use(middleware.LogReq())
 	}
 	corsCfg := cors.DefaultConfig()
 	corsCfg.AllowOrigins = []string{"*"}
-	if a.cfg.Cors != nil {
-		if len(a.cfg.Cors.AllowOrigin) > 0 {
-			corsCfg.AllowOrigins = a.cfg.Cors.AllowOrigin
+	if a.config.Cors != nil {
+		if len(a.config.Cors.AllowOrigin) > 0 {
+			corsCfg.AllowOrigins = a.config.Cors.AllowOrigin
 		}
-		if len(a.cfg.Cors.AllowMethods) > 0 {
-			corsCfg.AllowMethods = a.cfg.Cors.AllowMethods
+		if len(a.config.Cors.AllowMethods) > 0 {
+			corsCfg.AllowMethods = a.config.Cors.AllowMethods
 		}
-		if len(a.cfg.Cors.AllowHeaders) > 0 {
-			corsCfg.AllowHeaders = a.cfg.Cors.AllowHeaders
+		if len(a.config.Cors.AllowHeaders) > 0 {
+			corsCfg.AllowHeaders = a.config.Cors.AllowHeaders
 		}
-		corsCfg.AllowCredentials = a.cfg.Cors.AllowCredentials
+		corsCfg.AllowCredentials = a.config.Cors.AllowCredentials
 	}
 	a.Gin.Use(cors.New(corsCfg))
-	a.Gin.Use(middleware.Otel(a.cfg.Name))
+	a.Gin.Use(middleware.Otel(a.config.Name))
 }
 
 func (a *WebApp) starup() {
 	hook.Start.Trigger()
+	a.initPprof()
 }
 
 func (a *WebApp) destroy() {
 	hook.Exit.Trigger()
+}
+
+func (a *WebApp) initPprof() {
+	if !a.config.Pprof {
+		return
+	}
+	a.Gin.GET("/debug/pprof/*any", gin.WrapH(http.DefaultServeMux))
 }

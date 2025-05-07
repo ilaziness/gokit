@@ -16,6 +16,8 @@ type App struct {
 	SessionSecret string `mapstructure:"session_secret"`
 	// 是否记录请求日志
 	LogReq bool `mapstructure:"log_req"`
+	// 是否开启pprof
+	Pprof bool `mapstructure:"pprof"`
 }
 
 type Cors struct {
