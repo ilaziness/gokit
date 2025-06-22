@@ -21,20 +21,33 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
+// 日志模式
+const (
+	ModeDebug   = "debug"   // 打印所有日志
+	ModeDev     = "dev"     // 打印所有日志
+	ModeRelease = "release" // 仅打印info及以上级别的日志
+)
+
 var (
 	Logger    *zap.SugaredLogger
 	zapLogger *zap.Logger
 	logLevel  = zapcore.DebugLevel
+	logMode   string
 )
 
+// SetLevel 设置日志级别
 func SetLevel(mode ...string) {
-	if len(mode) > 0 {
-		switch mode[0] {
-		case "debug":
-			logLevel = zapcore.DebugLevel
-		case "release":
-			logLevel = zapcore.InfoLevel
-		}
+	if (len(mode)) == 0 {
+		return
+	}
+
+	switch mode[0] {
+	case ModeDebug, ModeDev:
+		logMode = mode[0]
+		logLevel = zapcore.DebugLevel
+	case ModeRelease:
+		logMode = mode[0]
+		logLevel = zapcore.InfoLevel
 	}
 }
 
@@ -103,6 +116,11 @@ func buildEncoderConsoleConfig() zapcore.EncoderConfig {
 	consoleEncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder // 添加颜色
 	consoleEncoderConfig.EncodeCaller = zapcore.ShortCallerEncoder      // 简短的调用者信息
 	return consoleEncoderConfig
+}
+
+// IsDebugMode 是否是debug模式，是返回true
+func IsDebugMode() bool {
+	return logMode == ModeDebug
 }
 
 // Debug 增加了记录trace id

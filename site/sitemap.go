@@ -126,7 +126,7 @@ func (sg *SitemapGenerator) generateIndexFile(sitemapFiles []string) error {
 		if err != nil {
 			return fmt.Errorf("failed to get relative path for file %s: %w", file, err)
 		}
-		content += fmt.Sprintf("<sitemap><loc>%s/%s</loc><lastmod>%s</lastmod></sitemap>\n", 
+		content += fmt.Sprintf("<sitemap><loc>%s/%s</loc><lastmod>%s</lastmod></sitemap>\n",
 			sg.Domain, relativePath, time.Now().Format("2006-01-02"))
 	}
 	content += "</sitemapindex>"

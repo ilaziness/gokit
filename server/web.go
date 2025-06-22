@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	_ "net/http/pprof"
 	"os"
 	"os/signal"
 	"time"
@@ -111,6 +110,8 @@ func (a *WebApp) destroy() {
 	hook.Exit.Trigger()
 }
 
+// initPprof 初始化pprof功能
+// 需要在main包里面导入pprof包`_ "net/http/pprof"`
 func (a *WebApp) initPprof() {
 	if !a.config.Pprof {
 		return

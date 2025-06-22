@@ -1,3 +1,9 @@
+// Package sql 提供了sql相关ORM的快速接入方法
+// gorm不需要在main里面import驱动
+// ent需要在main里面导入对应的驱动
+// sqlx需要在main里面导入对应的驱动
+// MySQL`_ "github.com/go-sql-driver/mysql"`, Postgresql`_ "github.com/lib/pq"`
+
 package sql
 
 import (
@@ -9,6 +15,7 @@ import (
 	entsql "entgo.io/ent/dialect/sql"
 	"github.com/ilaziness/gokit/config"
 	"github.com/ilaziness/gokit/hook"
+
 	// _ "github.com/jackc/pgx/v5/stdlib"  // ent pgx驱动
 	"github.com/jmoiron/sqlx"
 	// _ "github.com/lib/pq"  //sqlx的驱动

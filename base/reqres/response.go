@@ -1,4 +1,6 @@
-package reqp
+// Package reqres 提供了响应数据的一些功能
+
+package reqres
 
 import (
 	"errors"
