@@ -7,6 +7,7 @@ import (
 
 	"github.com/ilaziness/gokit/config"
 	"github.com/ilaziness/gokit/log"
+
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"gorm.io/gen"

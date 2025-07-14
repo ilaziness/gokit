@@ -24,7 +24,6 @@ import (
 // 日志模式
 const (
 	ModeDebug   = "debug"   // 打印所有日志
-	ModeDev     = "dev"     // 打印所有日志
 	ModeRelease = "release" // 仅打印info及以上级别的日志
 )
 
@@ -42,7 +41,7 @@ func SetLevel(mode ...string) {
 	}
 
 	switch mode[0] {
-	case ModeDebug, ModeDev:
+	case ModeDebug:
 		logMode = mode[0]
 		logLevel = zapcore.DebugLevel
 	case ModeRelease:

@@ -3,39 +3,15 @@
 # Source: https://github.com/ccoVeille/golangci-lint-config-examples/
 # Author: @ccoVeille
 # License: MIT
-# Variant: 03-safe
+# Variant: 02-basic
 # Version: v2.0.0
 #
 version: "2"
 
 formatters:
   enable:
-    # format the code
-    - gofmt
-    # format the block of imports
-    - gci
-
-  settings:
     # format the code with Go standard library
-    gofmt:
-      # simplify the code
-      # https://pkg.go.dev/cmd/gofmt#hdr-The_simplify_command
-      simplify: true
-      rewrite-rules:
-        # replace `interface{}` with `any` in the code on format
-        - pattern: 'interface{}'
-          replacement: 'any'
-
-    # make sure imports are always in a deterministic order
-    # https://github.com/daixiang0/gci/
-    gci:  # define the section orders for imports
-      sections:
-        # Standard section: captures all standard packages.
-        - standard
-        # Default section: catchall that is not standard or custom
-        - default
-        # linters that related to local tool, so they should be separated
-        - localmodule
+    - gofmt
 
 linters:
   exclusions:
@@ -46,8 +22,6 @@ linters:
       # These are common false positives in poor code
       # you should not use this on recent code you write from scratch
       # More information: https://golangci-lint.run/usage/false-positives/#comments
-      #
-      # Please uncomment the following line if your code is not using the godoc format
       - comments
 
       # Common false positives
@@ -57,7 +31,7 @@ linters:
 
       # Legacy preset is not recommended anymore
       # More information: https://golangci-lint.run/usage/false-positives/#legacy
-      - legacy
+      # - legacy
 
       # std-error-handling is a set of rules that avoid reporting unhandled errors on common functions/methods
       # More information: https://golangci-lint.run/usage/false-positives/#std-error-handling
@@ -86,33 +60,6 @@ linters:
     # Fast, configurable, extensible, flexible, and beautiful linter for Go.
     # Drop-in replacement of golint.
     - revive
-
-    # make sure to use t.Helper() when needed
-    - thelper
-
-    # mirror suggests rewrites to avoid unnecessary []byte/string conversion
-    - mirror
-
-    # detect the possibility to use variables/constants from the Go standard library.
-    - usestdlibvars
-
-    # Finds commonly misspelled English words.
-    - misspell
-
-    # Checks for duplicate words in the source code.
-    - dupword
-
-    # linter to detect errors invalid key values count
-    - loggercheck
-
-    # detect when a package or method could be replaced by one from the standard library
-    - exptostd
-
-    # detects nested contexts in loops or function literals
-    - fatcontext
-
-    # Reports uses of functions with replacement inside the testing package.
-    - usetesting
 
   settings:
     revive:
@@ -193,23 +140,6 @@ linters:
 
         # warns when initialism, variable or package naming conventions are not followed.
         - name: var-naming
-
-    misspell:
-      # Correct spellings using locale preferences for US or UK.
-      # Setting locale to US will correct the British spelling of 'colour' to 'color'.
-      # Default ("") is to use a neutral variety of English.
-      locale: US
-
-      # List of words to ignore
-      # among the one defined in https://github.com/golangci/misspell/blob/master/words.go
-      ignore-rules: []
-      #  - valor
-      #  - and
-
-      # Extra word corrections.
-      extra-words: []
-      #  - typo: "whattever"
-      #    correction: "whatever"
 
 output:
   # Order to use when sorting results.

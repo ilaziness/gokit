@@ -88,3 +88,13 @@ type Nacos struct {
 	Client NacosClient   `mapstructure:"client"`
 	Server []NacosServer `mapstructure:"server"`
 }
+
+// TCPServer tcp服务配置
+type TCPServer struct {
+	Debug     bool   `mapstructure:"debug"`
+	Address   string `mapstructure:"address"`
+	WorkerNum int    `mapstructure:"worker_num"`
+	// tls
+	CertFile string `mapstructure:"cert_file"`
+	KeyFile  string `mapstructure:"key_file"`
+}
