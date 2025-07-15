@@ -23,17 +23,19 @@ func TestPackCodec_Decode(t *testing.T) {
 			input: func() []byte {
 				var buf bytes.Buffer
 				var data = []byte(`{"key": "value"}`)
-				_ = binary.Write(&buf, binary.BigEndian, uint32(26))  // Len (4 bytes)
-				_ = binary.Write(&buf, binary.BigEndian, uint16(0))   // OpCode (2 bytes)
-				_ = binary.Write(&buf, binary.BigEndian, uint32(123)) // SQID (4 bytes)
+				_ = binary.Write(&buf, binary.BigEndian, uint32(16+packHeadLen)) // Len (4 bytes)
+				_ = binary.Write(&buf, binary.BigEndian, uint32(123))            // SQID (4 bytes)
+				_ = binary.Write(&buf, binary.BigEndian, uint16(0))              // OpCode (2 bytes)
+				_ = binary.Write(&buf, binary.BigEndian, uint16(1))              // Version (2 bytes)
 				buf.Write(data)
 				return buf.Bytes()
 			}(),
 			expected: &Pack{
 				Head: PackHead{
-					Len:    26,
-					OpCode: 0,
-					SQID:   123,
+					Len:     16 + packHeadLen,
+					OpCode:  0,
+					SQID:    123,
+					Version: Version1,
 				},
 				Payload: []byte(`{"key": "value"}`),
 			},
@@ -43,14 +45,15 @@ func TestPackCodec_Decode(t *testing.T) {
 			name: "Empty Payload",
 			input: func() []byte {
 				var buf bytes.Buffer
-				_ = binary.Write(&buf, binary.BigEndian, uint32(10))  // Len (4 bytes)
-				_ = binary.Write(&buf, binary.BigEndian, uint16(0))   // OpCode (2 bytes)
-				_ = binary.Write(&buf, binary.BigEndian, uint32(123)) // SQID (4 bytes)
+				_ = binary.Write(&buf, binary.BigEndian, uint32(packHeadLen)) // Len (4 bytes)
+				_ = binary.Write(&buf, binary.BigEndian, uint32(123))         // SQID (4 bytes)
+				_ = binary.Write(&buf, binary.BigEndian, uint16(0))           // OpCode (2 bytes)
+				_ = binary.Write(&buf, binary.BigEndian, uint16(1))           // Version (2 bytes)
 				return buf.Bytes()
 			}(),
 			expected: &Pack{
 				Head: PackHead{
-					Len:    10,
+					Len:    packHeadLen,
 					OpCode: 0,
 					SQID:   123,
 				},
@@ -69,8 +72,9 @@ func TestPackCodec_Decode(t *testing.T) {
 			input: func() []byte {
 				var buf bytes.Buffer
 				_ = binary.Write(&buf, binary.BigEndian, uint32(5))   // Len (4 bytes)
-				_ = binary.Write(&buf, binary.BigEndian, uint16(0))   // OpCode (2 bytes)
 				_ = binary.Write(&buf, binary.BigEndian, uint32(123)) // SQID (4 bytes)
+				_ = binary.Write(&buf, binary.BigEndian, uint16(0))   // OpCode (2 bytes)
+				_ = binary.Write(&buf, binary.BigEndian, uint16(1))   // Version (2 bytes)
 				return buf.Bytes()
 			}(),
 			expected: nil,
@@ -86,9 +90,10 @@ func TestPackCodec_Decode(t *testing.T) {
 			name: "Large Payload",
 			input: func() []byte {
 				var buf bytes.Buffer
-				_ = binary.Write(&buf, binary.BigEndian, uint32(1024*1024+10)) // 1MB payload + header
-				_ = binary.Write(&buf, binary.BigEndian, uint16(0))            // OpCode (2 bytes)
-				_ = binary.Write(&buf, binary.BigEndian, uint32(123))          // SQID (4 bytes)
+				_ = binary.Write(&buf, binary.BigEndian, uint32(1024*1024+packHeadLen)) // 1MB payload + header
+				_ = binary.Write(&buf, binary.BigEndian, uint32(123))                   // SQID (4 bytes)
+				_ = binary.Write(&buf, binary.BigEndian, uint16(0))                     // OpCode (2 bytes)
+				_ = binary.Write(&buf, binary.BigEndian, uint16(1))                     // Version (2 bytes)
 				// 填充1MB的数据
 				payload := make([]byte, 1024*1024)
 				for i := range payload {
@@ -99,9 +104,10 @@ func TestPackCodec_Decode(t *testing.T) {
 			}(),
 			expected: &Pack{
 				Head: PackHead{
-					Len:    1024*1024 + 10,
-					OpCode: 0,
-					SQID:   123,
+					Len:     1024*1024 + packHeadLen,
+					OpCode:  0,
+					SQID:    123,
+					Version: Version1,
 				},
 				Payload: func() []byte {
 					payload := make([]byte, 1024*1024)
@@ -170,9 +176,10 @@ func TestPackCodec_Encode(t *testing.T) {
 			data: []byte(`{"key": "value"}`),
 			expected: &Pack{
 				Head: PackHead{
-					Len:    26,
-					OpCode: 0,
-					SQID:   123,
+					Len:     16 + packHeadLen,
+					OpCode:  0,
+					SQID:    123,
+					Version: Version1,
 				},
 				Payload: []byte(`{"key": "value"}`),
 			},
@@ -191,9 +198,10 @@ func TestPackCodec_Encode(t *testing.T) {
 			data: nil,
 			expected: &Pack{
 				Head: PackHead{
-					Len:    10, // 仅包头
-					OpCode: 0,
-					SQID:   123,
+					Len:     packHeadLen, // 仅包头
+					OpCode:  0,
+					SQID:    123,
+					Version: Version1,
 				},
 				Payload: []byte{}, // Payload 为 nil
 			},
@@ -205,9 +213,10 @@ func TestPackCodec_Encode(t *testing.T) {
 			data: []byte{},
 			expected: &Pack{
 				Head: PackHead{
-					Len:    10, // 仅包头
-					OpCode: 0,
-					SQID:   123,
+					Len:     packHeadLen, // 仅包头
+					OpCode:  0,
+					SQID:    123,
+					Version: Version1,
 				},
 				Payload: []byte{}, // Payload 为空字节切片
 			},
@@ -226,9 +235,10 @@ func TestPackCodec_Encode(t *testing.T) {
 			}(),
 			expected: &Pack{
 				Head: PackHead{
-					Len:    1024*1024 + 10, // Len = payload length + header length
-					OpCode: 0,
-					SQID:   123,
+					Len:     1024*1024 + packHeadLen, // Len = payload length + header length
+					OpCode:  0,
+					SQID:    123,
+					Version: Version1,
 				},
 				Payload: func() []byte {
 					// 创建一个1MB大小的有效载荷

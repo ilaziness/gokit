@@ -80,7 +80,7 @@ func (a *WebApp) Run() {
 }
 
 func (a *WebApp) setDefaultMiddleware() {
-	a.Gin.Use(gin.CustomRecoveryWithWriter(nil, middleware.RecoveryHandle))
+	a.Gin.Use(gin.CustomRecoveryWithWriter(nil, middleware.RecoveryHandle), middleware.Otel(a.config.Name))
 	if a.config.LogReq {
 		a.Gin.Use(middleware.LogReq())
 	}
@@ -99,7 +99,6 @@ func (a *WebApp) setDefaultMiddleware() {
 		corsCfg.AllowCredentials = a.config.Cors.AllowCredentials
 	}
 	a.Gin.Use(cors.New(corsCfg))
-	a.Gin.Use(middleware.Otel(a.config.Name))
 }
 
 func (a *WebApp) starup() {

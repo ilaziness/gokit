@@ -186,7 +186,7 @@ func (t *Server) handleConn(conn net.Conn) {
 	}(conn)
 	handleMessage := func() (ct bool) {
 		// 设置读取超时
-		_ = conn.SetDeadline(time.Now().Add(180 * time.Second))
+		_ = conn.SetDeadline(time.Now().Add(300 * time.Second))
 		ctx := t.ctxPool.Get().(*Context)
 		ctx.Reset(conn, t.packCodec)
 		pack, err := t.packCodec.Decode(conn)
@@ -210,7 +210,11 @@ func (t *Server) handleConn(conn net.Conn) {
 
 			ctx.handler = t.middlewares
 			handler := t.handlers[ctx.OpCode]
-			if handler != nil {
+			if handler == nil {
+				ctx.handler = append(ctx.handler, func(ctx *Context) {
+					_ = ctx.WriteNotFund()
+				})
+			} else {
 				ctx.handler = append(ctx.handler, handler)
 			}
 			ctx.Next()
@@ -234,6 +238,7 @@ type Context struct {
 	handler   []Handler
 	packCodec Codec
 	Conn      net.Conn
+	Pack      *Pack
 	SQID      uint32
 	OpCode    OpCode
 	Payload   []byte
@@ -265,13 +270,16 @@ func (c *Context) SetData(pack *Pack) {
 	c.SQID = pack.Head.SQID
 	c.OpCode = OpCode(pack.Head.OpCode)
 	c.Payload = pack.Payload
+
+	c.Pack = pack
 }
 
 // Write 写入一般响应数据
 func (c *Context) Write(data []byte) error {
 	pack := &Pack{
 		Head: PackHead{
-			SQID: c.SQID,
+			SQID:    c.SQID,
+			Version: c.Pack.Head.Version,
 		},
 		Payload: data,
 	}
@@ -282,8 +290,9 @@ func (c *Context) Write(data []byte) error {
 func (c *Context) WriteWithOpCode(opcode OpCode, data []byte) error {
 	pack := &Pack{
 		Head: PackHead{
-			OpCode: uint16(opcode),
-			SQID:   c.SQID,
+			OpCode:  uint16(opcode),
+			SQID:    c.SQID,
+			Version: c.Pack.Head.Version,
 		},
 		Payload: data,
 	}
@@ -297,7 +306,7 @@ func (c *Context) ServerErr() error {
 
 // WriteNotFund 写入404错误响应
 func (c *Context) WriteNotFund() error {
-	return c.WriteWithOpCode(OpCodeNotFund, nil)
+	return c.WriteWithOpCode(OpCodeNotFound, nil)
 }
 
 // Abort 中断处理

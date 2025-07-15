@@ -75,7 +75,22 @@ func LogReq() gin.HandlerFunc {
 		statusCode := c.Writer.Status()
 		errorMessage := c.Errors.ByType(gin.ErrorTypePrivate).String()
 
-		log.Logger.Infow(path, "latency", latency.String(), "client_ip", clientIP, "method", method, "status_code", statusCode, "query", raw, "error", errorMessage)
+		span := oteltrace.SpanFromContext(c)
+		traceID := ""
+		if span.SpanContext().HasTraceID() {
+			traceID = span.SpanContext().TraceID().String()
+		}
+
+		log.Logger.Infow(
+			path,
+			"latency", latency.String(),
+			"client_ip", clientIP,
+			"method", method,
+			"status_code", statusCode,
+			"query", raw,
+			"error", errorMessage,
+			"trace_id", traceID,
+		)
 	}
 }
 
@@ -89,7 +104,6 @@ func Otel(serviceName string) gin.HandlerFunc {
 	}
 	return func(c *gin.Context) {
 		if !isSetProvider {
-			c.Next()
 			return
 		}
 
@@ -99,8 +113,8 @@ func Otel(serviceName string) gin.HandlerFunc {
 		defer span.End()
 
 		c.Request = c.Request.WithContext(ctx)
-		//otel.GetTextMapPropagator().Inject(ctx, propagation.HeaderCarrier(c.Writer.Header()))
-		c.Writer.Header().Set("Trace-ID", span.SpanContext().TraceID().String())
+		otel.GetTextMapPropagator().Inject(ctx, propagation.HeaderCarrier(c.Writer.Header()))
+		c.Writer.Header().Set("Trace-Id", span.SpanContext().TraceID().String())
 
 		c.Next()
 
