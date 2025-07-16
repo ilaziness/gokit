@@ -98,3 +98,13 @@ type TCPServer struct {
 	CertFile string `mapstructure:"cert_file"`
 	KeyFile  string `mapstructure:"key_file"`
 }
+
+// UDPServer UDP服务配置
+type UDPServer struct {
+	Debug     bool   `mapstructure:"debug"`
+	Address   string `mapstructure:"address"`
+	WorkerNum int    `mapstructure:"worker_num"`
+	// DTLS (TLS over UDP)
+	CertFile string `mapstructure:"cert_file"`
+	KeyFile  string `mapstructure:"key_file"`
+}

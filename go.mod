@@ -13,6 +13,7 @@ require (
 	github.com/jinzhu/copier v0.4.0
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/nacos-group/nacos-sdk-go/v2 v2.3.2
+	github.com/pion/dtls/v3 v3.0.6
 	github.com/redis/go-redis/v9 v9.11.0
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/spf13/cobra v1.9.1
@@ -105,6 +106,8 @@ require (
 	github.com/orcaman/concurrent-map v1.0.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/pierrec/lz4 v2.6.1+incompatible // indirect
+	github.com/pion/logging v0.2.3 // indirect
+	github.com/pion/transport/v3 v3.0.7 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/prometheus/client_golang v1.22.0 // indirect
