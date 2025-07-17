@@ -1,0 +1,36 @@
+{"level":"debug","ts":1752733576.9449954,"msg":"accepted QUIC connection from: 127.0.0.1:54202"}
+{"level":"debug","ts":1752733576.9548855,"msg":"received datagram from: 127.0.0.1:54202, size: 25"}
+{"level":"debug","ts":1752733576.9558842,"msg":"processed datagram: test datagram"}
+{"level":"debug","ts":1752733576.9563873,"msg":"accepted stream 0 from: 127.0.0.1:54202"}
+{"level":"debug","ts":1752733576.9563873,"msg":"received stream data from: 127.0.0.1:54202, size: 23"}
+{"level":"debug","ts":1752733576.9569027,"msg":"processed stream: test stream"}
+{"level":"debug","ts":1752736791.2719693,"msg":"accepted QUIC connection from: 127.0.0.1:63010"}
+{"level":"debug","ts":1752736791.2812672,"msg":"received datagram from: 127.0.0.1:63010, size: 25"}
+{"level":"debug","ts":1752736791.2817929,"msg":"processed datagram: test datagram"}
+{"level":"debug","ts":1752736791.282305,"msg":"accepted stream 0 from: 127.0.0.1:63010"}
+{"level":"debug","ts":1752736791.282305,"msg":"received stream data from: 127.0.0.1:63010, size: 23"}
+{"level":"debug","ts":1752736791.282305,"msg":"processed stream: test stream"}
+{"level":"debug","ts":1752737035.3364077,"msg":"accepted QUIC connection from: 127.0.0.1:56520"}
+{"level":"debug","ts":1752737035.3447576,"msg":"received datagram from: 127.0.0.1:56520, size: 25"}
+{"level":"debug","ts":1752737035.3447576,"msg":"processed datagram: test datagram"}
+{"level":"debug","ts":1752737035.3452754,"msg":"accepted stream 0 from: 127.0.0.1:56520"}
+{"level":"debug","ts":1752737035.3452754,"msg":"received stream data from: 127.0.0.1:56520, size: 23"}
+{"level":"debug","ts":1752737035.3452754,"msg":"processed stream: test stream"}
+{"level":"debug","ts":1752737540.3305304,"msg":"accepted QUIC connection from: 127.0.0.1:60351"}
+{"level":"debug","ts":1752737540.340564,"msg":"received datagram from: 127.0.0.1:60351, size: 25"}
+{"level":"debug","ts":1752737540.340564,"msg":"processed datagram: test datagram"}
+{"level":"debug","ts":1752737540.3410814,"msg":"accepted stream 0 from: 127.0.0.1:60351"}
+{"level":"debug","ts":1752737540.3410814,"msg":"received stream data from: 127.0.0.1:60351, size: 23"}
+{"level":"debug","ts":1752737540.3410814,"msg":"processed stream: test stream"}
+{"level":"debug","ts":1752737778.2098868,"msg":"accepted QUIC connection from: 127.0.0.1:55207"}
+{"level":"debug","ts":1752737778.2189574,"msg":"received datagram from: 127.0.0.1:55207, size: 25"}
+{"level":"debug","ts":1752737778.2189574,"msg":"processed datagram: test datagram"}
+{"level":"debug","ts":1752737778.2200184,"msg":"accepted stream 0 from: 127.0.0.1:55207"}
+{"level":"debug","ts":1752737778.2200184,"msg":"received stream data from: 127.0.0.1:55207, size: 23"}
+{"level":"debug","ts":1752737778.2200184,"msg":"processed stream: test stream"}
+{"level":"debug","ts":1752738330.668976,"msg":"accepted QUIC connection from: 127.0.0.1:59573"}
+{"level":"debug","ts":1752738330.679074,"msg":"received datagram from: 127.0.0.1:59573, size: 25"}
+{"level":"debug","ts":1752738330.679074,"msg":"processed datagram: test datagram"}
+{"level":"debug","ts":1752738330.6795914,"msg":"accepted stream 0 from: 127.0.0.1:59573"}
+{"level":"debug","ts":1752738330.6795914,"msg":"received stream data from: 127.0.0.1:59573, size: 23"}
+{"level":"debug","ts":1752738330.6801903,"msg":"processed stream: test stream"}

@@ -108,3 +108,19 @@ type UDPServer struct {
 	CertFile string `mapstructure:"cert_file"`
 	KeyFile  string `mapstructure:"key_file"`
 }
+
+// QUICServer QUIC服务配置
+type QUICServer struct {
+	Debug     bool   `mapstructure:"debug"`
+	Address   string `mapstructure:"address"`
+	WorkerNum int    `mapstructure:"worker_num"`
+	// TLS配置 (QUIC必需)
+	CertFile string `mapstructure:"cert_file"`
+	KeyFile  string `mapstructure:"key_file"`
+	// QUIC特定配置
+	IdleTimeout      int  `mapstructure:"idle_timeout"`      // 空闲超时(秒)
+	KeepAlive        int  `mapstructure:"keep_alive"`        // 保活间隔(秒)
+	HandshakeTimeout int  `mapstructure:"handshake_timeout"` // 握手超时(秒)
+	MaxStreams       int  `mapstructure:"max_streams"`       // 最大流数量
+	Allow0RTT        bool `mapstructure:"allow_0rtt"`        // 允许0-RTT
+}

@@ -1,0 +1,31 @@
+{"level":"error","ts":1752746228.8646774,"msg":"load TLS config error: tls: private key does not match public key","stacktrace":"github.com/ilaziness/gokit/server/quic.(*Server).createTLSConfig\n\tD:/git_repo/github/kit_space/gokit/server/quic/quic.go:184\ngithub.com/ilaziness/gokit/server/quic.(*Server).initConfigs\n\tD:/git_repo/github/kit_space/gokit/server/quic/quic.go:165\ngithub.com/ilaziness/gokit/server/quic.(*Server).Start\n\tD:/git_repo/github/kit_space/gokit/server/quic/quic.go:127\nmain.main\n\tD:/git_repo/github/kit_space/gokit/server/quic/example/main.go:59\nruntime.main\n\tC:/Program Files/Go/src/runtime/proc.go:283"}
+{"level":"info","ts":1752746277.0601308,"msg":"QUIC server start at: 127.0.0.1:8443"}
+{"level":"debug","ts":1752746317.0685453,"msg":"accepted QUIC connection from: 127.0.0.1:54928"}
+{"level":"debug","ts":1752746317.069568,"msg":"accepted stream 0 from: 127.0.0.1:54928"}
+{"level":"debug","ts":1752746317.069568,"msg":"received datagram from: 127.0.0.1:54928, size: 30"}
+{"level":"debug","ts":1752746317.069568,"msg":"received stream data from: 127.0.0.1:54928, size: 28"}
+{"level":"info","ts":1752746317.069568,"msg":"QUIC request from 127.0.0.1:54928, OpCode: 1000, SQID: 1"}
+{"level":"debug","ts":1752746317.069568,"msg":"processed stream: Stream message 1"}
+{"level":"debug","ts":1752746317.069568,"msg":"processed datagram: Datagram message 1"}
+{"level":"debug","ts":1752746318.068733,"msg":"accepted stream 4 from: 127.0.0.1:54928"}
+{"level":"debug","ts":1752746318.068733,"msg":"received datagram from: 127.0.0.1:54928, size: 30"}
+{"level":"debug","ts":1752746318.068733,"msg":"received stream data from: 127.0.0.1:54928, size: 28"}
+{"level":"info","ts":1752746318.0692747,"msg":"QUIC request from 127.0.0.1:54928, OpCode: 1000, SQID: 2"}
+{"level":"debug","ts":1752746318.0692747,"msg":"processed datagram: Datagram message 2"}
+{"level":"debug","ts":1752746318.0692747,"msg":"processed stream: Stream message 2"}
+{"level":"debug","ts":1752746319.0690527,"msg":"received datagram from: 127.0.0.1:54928, size: 30"}
+{"level":"debug","ts":1752746319.0690527,"msg":"accepted stream 8 from: 127.0.0.1:54928"}
+{"level":"info","ts":1752746319.0690527,"msg":"QUIC request from 127.0.0.1:54928, OpCode: 1000, SQID: 3"}
+{"level":"debug","ts":1752746319.0697,"msg":"received stream data from: 127.0.0.1:54928, size: 28"}
+{"level":"debug","ts":1752746319.0697,"msg":"processed datagram: Datagram message 3"}
+{"level":"debug","ts":1752746319.0702245,"msg":"processed stream: Stream message 3"}
+{"level":"debug","ts":1752746320.0695205,"msg":"received datagram from: 127.0.0.1:54928, size: 30"}
+{"level":"info","ts":1752746320.0695205,"msg":"QUIC request from 127.0.0.1:54928, OpCode: 1000, SQID: 4"}
+{"level":"debug","ts":1752746320.0702844,"msg":"processed datagram: Datagram message 4"}
+{"level":"debug","ts":1752746321.0695946,"msg":"received datagram from: 127.0.0.1:54928, size: 30"}
+{"level":"info","ts":1752746321.0702922,"msg":"QUIC request from 127.0.0.1:54928, OpCode: 1000, SQID: 5"}
+{"level":"debug","ts":1752746321.0708196,"msg":"processed datagram: Datagram message 5"}
+{"level":"warn","ts":1752746327.0692213,"msg":"receive datagram error: Application error 0x0 (remote): client shutdown"}
+{"level":"warn","ts":1752746327.0692213,"msg":"accept stream error: Application error 0x0 (remote): client shutdown"}
+{"level":"info","ts":1752746337.1297626,"msg":"Shutdown Server ..."}
+{"level":"info","ts":1752746339.1301053,"msg":"Server Shutdown"}
